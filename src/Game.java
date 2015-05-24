@@ -6,7 +6,7 @@ public class Game {
 	private ArrayList<Ball> balls, targetsList, chiefs;
 	private int width = 2;
 	private int height = 2;
-	private int quantTargets = 100;
+	private int quantTargets = 50;
 	private Color background = StdDraw.BLUE;
 	
 	public Game () {
