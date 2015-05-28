@@ -9,4 +9,4 @@ Drifts
 
 Bruno Ferraz de Almeida Couto <br>
 Joaquim Ferreira Palmeira da Silva <br>
-Vítor Barcellos
+Vítor Barcellos de Andrade
