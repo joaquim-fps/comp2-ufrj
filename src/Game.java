@@ -3,29 +3,29 @@ import java.util.ArrayList;
 
 public class Game {
 	private World world;
-	private ArrayList<Ball> balls, targetsList, chiefs,pop;
+	private ArrayList<Ball> balls, chiefs,pop;
+	private ArrayList<TargetBall> targetsList;
 	private int width = 2;
 	private int height = 2;
-	private int quantTargets = 50;
+	private int quantTargets = 10;
 	private Color background = StdDraw.BLUE;
+	private int chance = 50;//porcentagem de chance de uma bola alvo aparecer a cada frame do jogo
 	
 	public Game () {
 		world = new World (width, height, background);
-		targetsList = new ArrayList<Ball>();
+		targetsList = new ArrayList<TargetBall>();
 		chiefs = new ArrayList<Ball>();
 		pop = new ArrayList<Ball>();
 		balls = new ArrayList<Ball>();
 		double raio = 0.05;
 		Ball b = null;
+		TargetBall auxBall = null;
 		
 		for (int i = 0; i < quantTargets; i ++) {
-			b = new Ball (geraPonto(raio), 
-		              new Velocity (-0.01 * Math.random(), 0.01 * Math.random()),
-		              raio, 
-		              StdDraw.GREEN);
+			auxBall = new TargetBall (world, raio, StdDraw.GREEN);
 			
-			targetsList.add(b);
-			balls.add(b);
+			targetsList.add(auxBall);
+			balls.add(auxBall);
 		}
 		
 		b = new Ball (geraPonto(raio), 
@@ -53,15 +53,32 @@ public class Game {
 		while (roda == true) {
 			StdDraw.clear(world.getBackground());
 			
-			for (Ball ball : balls) {
-				ball.move(world);
-				ball.draw();
+			//Este bloco serve para criar as bolas verdes
+			if (((int)(Math.random()*100)) % (101-chance) == 0)
+			{
+				TargetBall auxBall = new TargetBall(world, 0.05, StdDraw.GREEN);
+				targetsList.add(auxBall);
+				balls.add(auxBall);
+			}
+			
+			for (int i = 0; i < balls.size(); i++) {
+				balls.get(i).move(world);
+				balls.get(i).draw();
+				if (balls.get(i) instanceof TargetBall)
+				{
+					TargetBall aux = (TargetBall) balls.get(i);
+					if ((!aux.isAttached()) && (aux.hasCollidedWithBottom(world)))
+					{
+						targetsList.remove(balls.get(i));
+						balls.remove(i);
+					}
+				}
 			}
 		
 			boolean colidiu = false;
 			for (Ball chief : chiefs) {
 				if (!targetsList.isEmpty()) {
-					for (Ball target : targetsList) {
+					for (TargetBall target : targetsList) {
 						if (chief.hasCollided(target)) 
 						{
 							//target.setColor(StdDraw.YELLOW); Uncomment it if wish to switch color when crush
@@ -70,6 +87,8 @@ public class Game {
 							
 							target.getV().setVx(chief.getV().getVx());
 							target.getV().setVy(chief.getV().getVy());
+							
+							target.attach();
 							
 							chiefs.add(target);
 							

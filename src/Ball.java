@@ -12,6 +12,11 @@ public class Ball {
 		this.radius = radius;
 		this.color = color;
 	}
+	
+	public Ball(double radius, Color color) {
+		this.radius = radius;
+		this.color = color;
+	}
 
 	public Point getCenter() {
 		return center;
