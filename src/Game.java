@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Game {
 	private World world;
 	private ArrayList<Ball> balls, chiefs,pop;
-	private ArrayList<TargetBall> targetsList;
+	private ArrayList<FishingBall> fishList;
 	private int width = 2;
 	private int height = 2;
 	private int quantTargets = 10;
@@ -14,7 +14,7 @@ public class Game {
 	public Game () {
 		world = new World (width, height, background);
 		//Bolas alvo
-		targetsList = new ArrayList<TargetBall>();
+		fishList = new ArrayList<FishingBall>();
 		//Bolas  controladas
 		chiefs = new ArrayList<Ball>();
 		//Bolas estouradoras
@@ -23,12 +23,12 @@ public class Game {
 		balls = new ArrayList<Ball>();
 		double raio = 0.05;
 		Ball b = null;
-		TargetBall auxBall = null;
+		FishingBall auxBall = null;
 		
 		for (int i = 0; i < quantTargets; i ++) {
-			auxBall = new TargetBall (world, raio, StdDraw.GREEN);
+			auxBall = new FishingBall (world, raio, StdDraw.GREEN);
 			
-			targetsList.add(auxBall);
+			fishList.add(auxBall);
 			balls.add(auxBall);
 		}
 		
@@ -60,20 +60,20 @@ public class Game {
 			//Este bloco serve para criar as bolas verdes
 			if (((int)(Math.random()*100)) % (101-chance) == 0)
 			{
-				TargetBall auxBall = new TargetBall(world, 0.05, StdDraw.GREEN);
-				targetsList.add(auxBall);
+				FishingBall auxBall = new FishingBall(world, 0.05, StdDraw.GREEN);
+				fishList.add(auxBall);
 				balls.add(auxBall);
 			}
 			
 			for (int i = 0; i < balls.size(); i++) {
 				balls.get(i).move(world);
 				balls.get(i).draw();
-				if (balls.get(i) instanceof TargetBall)
+				if (balls.get(i) instanceof FishingBall)
 				{
-					TargetBall aux = (TargetBall) balls.get(i);
+					FishingBall aux = (FishingBall) balls.get(i);
 					if ((!aux.isAttached()) && (aux.hasCollidedWithBottom(world)))
 					{
-						targetsList.remove(balls.get(i));
+						fishList.remove(balls.get(i));
 						balls.remove(i);
 					}
 				}
@@ -81,18 +81,18 @@ public class Game {
 		
 			boolean colidiu = false;
 			for (Ball chief : chiefs) {
-				if (!targetsList.isEmpty()) {
-					for (TargetBall target : targetsList) {
+				if (!fishList.isEmpty()) {
+					for (FishingBall target : fishList) {
 						if (chief.hasCollided(target)) 
 						{
 							//target.setColor(StdDraw.YELLOW); Uncomment it if wish to switch color when crush
 							
-							targetsList.remove(target);
+							fishList.remove(target);
 							
-							//target.getV().setVx(chief.getV().getVx()); Delete
-							//target.getV().setVy(chief.getV().getVy()); Delete
+							//target.getV().setVx(chief.getV().getVx()); //Delete
+							//target.getV().setVy(chief.getV().getVy()); //Delete
 							
-							target.attach();
+							target.attach(chief);
 							
 							chiefs.add(target);
 							
