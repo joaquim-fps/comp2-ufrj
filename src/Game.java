@@ -13,9 +13,13 @@ public class Game {
 	
 	public Game () {
 		world = new World (width, height, background);
+		//Bolas alvo
 		targetsList = new ArrayList<TargetBall>();
+		//Bolas  controladas
 		chiefs = new ArrayList<Ball>();
+		//Bolas estouradoras
 		pop = new ArrayList<Ball>();
+		//Todas as bolas
 		balls = new ArrayList<Ball>();
 		double raio = 0.05;
 		Ball b = null;
@@ -85,8 +89,8 @@ public class Game {
 							
 							targetsList.remove(target);
 							
-							target.getV().setVx(chief.getV().getVx());
-							target.getV().setVy(chief.getV().getVy());
+							//target.getV().setVx(chief.getV().getVx()); Delete
+							//target.getV().setVy(chief.getV().getVy()); Delete
 							
 							target.attach();
 							
