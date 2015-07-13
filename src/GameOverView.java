@@ -1,20 +1,20 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class StartView
+public class GameOverView
 {
 	private JFrame frame;
 	private JPanel panel;
 	private JButton button;
-	private Controller controller;
 	
-	public StartView()
+	public void setUp()
 	{
-		button = new JButton("Play");
+		button = new JButton("Exit");
 		button.addActionListener(new ButtonListener());
 		
 		panel = new JPanel();
@@ -28,26 +28,13 @@ public class StartView
 		frame.setVisible(true);
 	}
 	
-	public void finish()
-	{
-		frame.setVisible(false);
-	}
-	
-	public void setController(Controller controller)
-	{
-		this.controller = controller;
-	}
-	
-	public JFrame getFrame()
-	{
-		return frame;
-	}
-	
 	class ButtonListener implements ActionListener
 	{
-		public void actionPerformed(ActionEvent event)
+
+		public void actionPerformed(ActionEvent ev)
 		{
-			controller.startGame();
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
+		
 	}
 }

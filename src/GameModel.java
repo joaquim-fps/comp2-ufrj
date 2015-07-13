@@ -1,21 +1,27 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 public class GameModel
 {
+	private Controller controller;
 	private GameView gameView;
 	private World world;
 	private ArrayList<BoomBall> boomList;
 	private ArrayList<MasterBall> masterList;
 	private ArrayList<FishingBall> fishingList;
 	private double raio = 30;
-	private int width = 600;
-	private int height = 600;
+	private int width;
+	private int height;
 	private int quantTargets = 10;
 	private Color background = Color.BLUE;
 	private int chance = 50;//porcentagem de chance de uma bola alvo aparecer a cada frame do jogo
 	
 	public GameModel () {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		width = (int)screenSize.getWidth();
+		height = (int)screenSize.getHeight()-35;
 		world = new World (width, height, background);
 		fishingList = new ArrayList<FishingBall>();
 		masterList = new ArrayList<MasterBall>();
@@ -135,6 +141,7 @@ public class GameModel
 			
 			gameView.update();
 		}
+		controller.gameOver();
 	}
 	
 	private Point geraPonto(double raio)
@@ -149,6 +156,11 @@ public class GameModel
 		y = (y - raio <= 0) ? y + (raio+0.01) : y;
 		
 		return new Point(x,y);
+	}
+	
+	public void setController(Controller controller)
+	{
+		this.controller = controller;
 	}
 	
 	public void setGameView (GameView gameView)

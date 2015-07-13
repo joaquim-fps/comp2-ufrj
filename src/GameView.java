@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+//import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,24 +16,33 @@ public class GameView
 	
 	public void setUp()
 	{
+		drawPanel = new MyDrawPanel();
 		frame = new JFrame("Drifts");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		drawPanel = new MyDrawPanel();
 		frame.getContentPane().add(drawPanel);
 //		frame.getContentPane().validate();
 		frame.setSize(gameModel.getWorld().getWidth(), gameModel.getWorld().getHeight());
+		frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 		frame.setVisible(true);
 	}
 	
 	public void update()
 	{
+//		drawPanel.revalidate();
+		System.out.println("repaint");
 		drawPanel.repaint();
+//		drawPanel.paintImmediately(new Rectangle(0, 0, drawPanel.getWidth(), drawPanel.getHeight()));
 		
 		try
 		{
 			Thread.sleep(10);
 		}
 		catch(Exception ex){}
+	}
+	
+	public void finish()
+	{
+		frame.setVisible(false);
 	}
 	
 	public void draw(PokeBall ball, Graphics g)
@@ -46,6 +56,7 @@ public class GameView
 	{
 		public void paintComponent(Graphics g)
 		{
+			System.out.println("paintComponent");
 			g.setColor(gameModel.getWorld().getBackground());
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			for (FishingBall ball : gameModel.getFishingList())

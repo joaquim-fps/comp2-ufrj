@@ -17,7 +17,7 @@ public class TestaGame {
 		 * se o jogo for inciado pela tela inicial, o paintComponent não funciona
 		 */
 		
-//		new Controller().go(); //inicia pela tela inicial
-		new Controller().startGame(); //inicia pela tela do jogo
+		new Controller().go(); //inicia pela tela inicial
+//		new Controller().startGame(); //inicia pela tela do jogo
 	}
 }

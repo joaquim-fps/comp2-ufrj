@@ -4,6 +4,7 @@ public class Controller
 	private StartView startView;
 	private GameView gameView;
 	private GameModel gameModel;
+	private GameOverView gameOverView;
 	
 	public void go()
 	{
@@ -13,9 +14,11 @@ public class Controller
 	
 	public void startGame()
 	{
-//		startView.finish();
+		startView.finish();
+		
 		gameModel = new GameModel();
 		gameView = new GameView();
+		gameModel.setController(this);
 		
 		gameModel.setGameView(gameView);
 		gameView.setGameModel(gameModel);
@@ -23,5 +26,13 @@ public class Controller
 		gameView.setUp();
 		
 		gameModel.go();
+	}
+	
+	public void gameOver()
+	{
+		gameView.finish();
+		
+		gameOverView = new GameOverView();
+		gameOverView.setUp();
 	}
 }
