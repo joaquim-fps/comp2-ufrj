@@ -1,19 +1,21 @@
 import java.awt.Color;
 
-public class Ball {
+public class PokeBall {
 	private Point center;
 	private Velocity v;
 	private double radius;
 	private Color color;
 	
-	public Ball(Point center, Velocity v, double radius, Color color) {
+	public PokeBall() {}
+	
+	public PokeBall(Point center, Velocity v, double radius, Color color) {
 		this.center = center;
 		this.v = v;
 		this.radius = radius;
 		this.color = color;
 	}
 	
-	public Ball(double radius, Color color) {
+	public PokeBall(double radius, Color color) {
 		this.radius = radius;
 		this.color = color;
 	}
@@ -54,25 +56,20 @@ public class Ball {
 		center.setPx(center.getPx() + v.getVx());
 		center.setPy(center.getPy() + v.getVy());
 		
-		if (Math.abs(center.getPx()) + radius >= world.getWidth()/2) {
+		if ((center.getPx() + radius >= world.getWidth())||(center.getPx() - radius <= 0)) {
 			v.setVx(-v.getVx());
 		}
 		
-		if (Math.abs(center.getPy()) + radius >= world.getHeight()/2) {
+		if ((center.getPy() + radius >= world.getHeight())||(center.getPy() - radius <= 0)) {
 			v.setVy(-v.getVy());
 		}
 	}
 	
-	public void draw() {
-		StdDraw.setPenColor(color);
-		StdDraw.filledCircle(center.getPx(), center.getPy(), radius);
-	}
-	
-	public boolean hasCollided(Ball b) {
+	public boolean hasCollided(PokeBall b) {
 		double deltaX = this.center.getPx()-b.center.getPx();
 		double deltaY = this.center.getPy()-b.center.getPy();
 		
-		if (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) <= this.radius + b.getRadius()) {
+		if (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) <= this.radius) {
 			return true;
 		}
 		
