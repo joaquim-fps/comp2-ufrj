@@ -60,6 +60,15 @@ public class GameModel
 		}
 	}
 	
+	public void createBoomBall()
+	{
+		if (((int)(Math.random()*100)) % (101-chance) == 0)
+		{
+			BoomBall auxBall = new BoomBall(world, raio, Color.MAGENTA);
+			boomList.add(auxBall);
+		}
+	}
+	
 	public void updateFishingBalls()
 	{
 		for (int i = 0; i < fishingList.size(); i++) {
@@ -76,6 +85,10 @@ public class GameModel
 		for (int i = 0; i < boomList.size(); i++)
 		{
 			boomList.get(i).move(world);
+			if (boomList.get(i).hasCollidedWithBottom(world))
+			{
+				boomList.remove(boomList.get(i));
+			}
 		}
 	}
 	
@@ -94,8 +107,8 @@ public class GameModel
 					{
 						MasterBall aux = new MasterBall(fishingList.get(i).getCenter(), fishingList.get(i).getRadius(), fishingList.get(i).getColor());
 						fishingList.remove(fishingList.get(i));
-						aux.setDeltaX(chief.getCenter().getPx() - aux.getCenter().getPx());
-						aux.setDeltaY(chief.getCenter().getPy() - aux.getCenter().getPy());
+						aux.setDeltaX(masterList.get(0).getCenter().getPx() - aux.getCenter().getPx());
+						aux.setDeltaY(masterList.get(0).getCenter().getPy() - aux.getCenter().getPy());
 						masterList.add(aux);
 						
 						colidiu = true;
@@ -152,6 +165,7 @@ public class GameModel
 	public void update()
 	{
 		createFishingBall();
+		createBoomBall();
 		updateFishingBalls();
 		updateBoomBalls();
 		updateMasterBalls();

@@ -33,7 +33,6 @@ public class FishingBall extends PokeBall
 	public void attach(PokeBall ball)
 	{
 		isAttached = true;
-//		super.setV(ball.getV());
 	}
 	
 }
