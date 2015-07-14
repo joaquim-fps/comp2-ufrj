@@ -37,7 +37,7 @@ public class GameView
 	
 	public void finish()
 	{
-		frame.setVisible(false);
+		frame.dispose();
 	}
 	
 	public void draw(PokeBall ball, Graphics g)

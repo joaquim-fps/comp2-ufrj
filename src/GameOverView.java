@@ -10,16 +10,21 @@ public class GameOverView
 {
 	private JFrame frame;
 	private JPanel panel;
-	private JButton button;
+	private JButton exitButton, playAgainButton;
+	private Controller controller;
 	
 	public void setUp()
 	{
-		button = new JButton("Exit");
-		button.addActionListener(new ButtonListener());
+		exitButton = new JButton("Exit");
+		exitButton.addActionListener(new ExitButtonListener());
+		
+		playAgainButton = new JButton("Play Again");
+		playAgainButton.addActionListener(new PlayAgainButtonListener());
 		
 		panel = new JPanel();
 		panel.setBackground(Color.white);
-		panel.add(button);
+		panel.add(exitButton);
+		panel.add(playAgainButton);
 		
 		frame = new JFrame("Drifts");
 		frame.getContentPane().add(panel);
@@ -28,7 +33,12 @@ public class GameOverView
 		frame.setVisible(true);
 	}
 	
-	class ButtonListener implements ActionListener
+	public void finish()
+	{
+		frame.dispose();
+	}
+	
+	class ExitButtonListener implements ActionListener
 	{
 
 		public void actionPerformed(ActionEvent ev)
@@ -36,6 +46,14 @@ public class GameOverView
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 		
+	}
+	
+	class PlayAgainButtonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent ev)
+		{
+			controller.playAgain();
+		}
 	}
 
 	public JFrame getFrame() {
@@ -54,11 +72,27 @@ public class GameOverView
 		this.panel = panel;
 	}
 
-	public JButton getButton() {
-		return button;
+	public JButton getExitButton() {
+		return exitButton;
 	}
 
-	public void setButton(JButton button) {
-		this.button = button;
+	public void setExitButton(JButton exitButton) {
+		this.exitButton = exitButton;
+	}
+
+	public JButton getPlayAgainButton() {
+		return playAgainButton;
+	}
+
+	public void setPlayAgainButton(JButton playAgainButton) {
+		this.playAgainButton = playAgainButton;
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 }

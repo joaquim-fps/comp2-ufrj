@@ -1,41 +1,38 @@
 public class Controller
 {
 	private StartView startView;
+	private GameController gameController;
 	private GameView gameView;
 	private GameModel gameModel;
 	private GameOverView gameOverView;
-	private Controller controller = this;
 	
 	public void go()
 	{
 		startView = new StartView();
-		startView.setController(controller);
+		startView.setController(this);
 	}
 	
 	public void startGame()
 	{
 		startView.finish();
 		
-		gameModel = new GameModel();
-		gameView = new GameView();
-		gameModel.setController(controller);
-		
-		gameModel.setGameView(gameView);
-		gameView.setGameModel(gameModel);
-		
-		gameView.setUp();
-		
-		gameModel.go();
-		
-		
+		gameController = new GameController();
+		gameController.setController(this);
+		gameController.setUpGame();
+		gameController.playGame();
 	}
 	
 	public void gameOver()
 	{
-		gameView.finish();
-		
 		gameOverView = new GameOverView();
+		gameOverView.setController(this);
 		gameOverView.setUp();
+	}
+	
+	public void playAgain()
+	{
+		gameOverView.finish();
+		go();
 	}
 
 	public StartView getStartView() {
@@ -44,6 +41,14 @@ public class Controller
 
 	public void setStartView(StartView startView) {
 		this.startView = startView;
+	}
+
+	public GameController getGameController() {
+		return gameController;
+	}
+
+	public void setGameController(GameController gameController) {
+		this.gameController = gameController;
 	}
 
 	public GameView getGameView() {

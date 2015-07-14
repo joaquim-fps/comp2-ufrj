@@ -31,7 +31,7 @@ public class StartView
 	
 	public void finish()
 	{
-		frame.setVisible(false);
+		frame.dispose();
 	}
 	
 	public JFrame getFrame() {
