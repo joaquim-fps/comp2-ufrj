@@ -1,6 +1,9 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GameModel
@@ -19,6 +22,8 @@ public class GameModel
 	private int chance = 50;//porcentagem de chance de uma bola alvo aparecer a cada frame do jogo
 	private boolean explode = false;
 	private boolean roda = true;
+	private boolean isPaused = false;
+	private KeyboardFocusManager manager;
 	
 	public GameModel () {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,6 +54,9 @@ public class GameModel
 		c.setDeltaX(0);
 		c.setDeltaY(0);
 		masterList.add(c);
+		
+		manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new MyDispatcher());
 	}
 	
 	public void createFishingBall()
@@ -169,12 +177,15 @@ public class GameModel
 	
 	public void update()
 	{
-		createFishingBall();
-		createBoomBall();
-		updateFishingBalls();
-		updateBoomBalls();
-		updateMasterBalls();
-		blowUpBalls();
+		if (!isPaused)
+		{
+			createFishingBall();
+			createBoomBall();
+			updateFishingBalls();
+			updateBoomBalls();
+			updateMasterBalls();
+			blowUpBalls();
+		}
 	}
 	
 	private Point geraPonto(double raio)
@@ -189,6 +200,29 @@ public class GameModel
 		y = (y - raio <= 0) ? y + (raio+0.01) : y;
 		
 		return new Point(x,y);
+	}
+	
+	class MyDispatcher implements KeyEventDispatcher
+	{
+
+		public boolean dispatchKeyEvent(KeyEvent e)
+		{
+			int id = e.getID();
+			if (id == KeyEvent.KEY_TYPED)
+	        {
+	        	if (isPaused)
+	        	{
+	        		isPaused = false;
+	        	}
+	        	else
+	        	{
+	        		isPaused = true;
+	        	}
+	        }
+			
+			return false;
+		}
+		
 	}
 	
 	public boolean isGameRunning()
