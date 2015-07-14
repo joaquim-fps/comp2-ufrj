@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-//import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -20,7 +19,6 @@ public class GameView
 		frame = new JFrame("Drifts");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(drawPanel);
-//		frame.getContentPane().validate();
 		frame.setSize(gameModel.getWorld().getWidth(), gameModel.getWorld().getHeight());
 		frame.setExtendedState( frame.getExtendedState()|JFrame.MAXIMIZED_BOTH );
 		frame.setVisible(true);
@@ -28,10 +26,7 @@ public class GameView
 	
 	public void update()
 	{
-//		drawPanel.revalidate();
-		System.out.println("repaint");
 		drawPanel.repaint();
-//		drawPanel.paintImmediately(new Rectangle(0, 0, drawPanel.getWidth(), drawPanel.getHeight()));
 		
 		try
 		{
@@ -56,7 +51,6 @@ public class GameView
 	{
 		public void paintComponent(Graphics g)
 		{
-			System.out.println("paintComponent");
 			g.setColor(gameModel.getWorld().getBackground());
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 			for (FishingBall ball : gameModel.getFishingList())
@@ -74,5 +68,25 @@ public class GameView
 				draw(ball, g);
 			}
 		}
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public MyDrawPanel getDrawPanel() {
+		return drawPanel;
+	}
+
+	public void setDrawPanel(MyDrawPanel drawPanel) {
+		this.drawPanel = drawPanel;
+	}
+
+	public GameModel getGameModel() {
+		return gameModel;
 	}
 }

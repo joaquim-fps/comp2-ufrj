@@ -49,7 +49,7 @@ public class GameModel
 		masterList.add(c);
 	}
 	
-	public void go() {
+public void go() {
 		
 		boolean explode = false;
 		boolean roda = true;
@@ -157,34 +157,100 @@ public class GameModel
 		
 		return new Point(x,y);
 	}
-	
-	public void setController(Controller controller)
-	{
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
 		this.controller = controller;
 	}
-	
-	public void setGameView (GameView gameView)
-	{
+
+	public GameView getGameView() {
+		return gameView;
+	}
+
+	public void setGameView(GameView gameView) {
 		this.gameView = gameView;
 	}
-	
-	public World getWorld()
-	{
+
+	public World getWorld() {
 		return world;
 	}
-	
-	public ArrayList<FishingBall> getFishingList()
-	{
-		return fishingList;
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
-	
-	public ArrayList<BoomBall> getBoomList()
-	{
+
+	public ArrayList<BoomBall> getBoomList() {
 		return boomList;
 	}
-	
-	public ArrayList<MasterBall> getMasterList()
-	{
+
+	public void setBoomList(ArrayList<BoomBall> boomList) {
+		this.boomList = boomList;
+	}
+
+	public ArrayList<MasterBall> getMasterList() {
 		return masterList;
+	}
+
+	public void setMasterList(ArrayList<MasterBall> masterList) {
+		this.masterList = masterList;
+	}
+
+	public ArrayList<FishingBall> getFishingList() {
+		return fishingList;
+	}
+
+	public void setFishingList(ArrayList<FishingBall> fishingList) {
+		this.fishingList = fishingList;
+	}
+
+	public double getRaio() {
+		return raio;
+	}
+
+	public void setRaio(double raio) {
+		this.raio = raio;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getQuantTargets() {
+		return quantTargets;
+	}
+
+	public void setQuantTargets(int quantTargets) {
+		this.quantTargets = quantTargets;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
+	}
+
+	public int getChance() {
+		return chance;
+	}
+
+	public void setChance(int chance) {
+		this.chance = chance;
 	}
 }

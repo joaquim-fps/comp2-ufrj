@@ -25,6 +25,7 @@ public class StartView
 		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(300, 300);
+		frame.setBounds(0, 0, 300, 300);
 		frame.setVisible(true);
 	}
 	
@@ -33,21 +34,52 @@ public class StartView
 		frame.setVisible(false);
 	}
 	
-	public void setController(Controller controller)
-	{
-		this.controller = controller;
-	}
-	
-	public JFrame getFrame()
-	{
+	public JFrame getFrame() {
 		return frame;
 	}
-	
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public JPanel getPanel() {
+		return panel;
+	}
+
+	public void setPanel(JPanel panel) {
+		this.panel = panel;
+	}
+
+	public JButton getButton() {
+		return button;
+	}
+
+	public void setButton(JButton button) {
+		this.button = button;
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
 	class ButtonListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-			controller.startGame();
+			
+			
+			new Thread() {
+
+		        @Override
+		        public void run() {
+		        	controller.startGame();
+
+		        }
+		    }.start();
 		}
 	}
 }
