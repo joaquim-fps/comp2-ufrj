@@ -73,7 +73,7 @@ public class GameModel
 	{
 		for (int i = 0; i < fishingList.size(); i++) {
 			fishingList.get(i).move(world);
-			if ((!fishingList.get(i).isAttached()) && (fishingList.get(i).hasCollidedWithBottom(world)))
+			if (fishingList.get(i).hasCollidedWithBottom(world))
 			{
 				fishingList.remove(fishingList.get(i));
 			}
@@ -121,6 +121,11 @@ public class GameModel
 					{
 						if(chief.hasCollided(boomList.get(i)))
 						{
+							if (masterList.size() == 1)
+							{
+								roda = false;
+								break;
+							}
 							boomList.remove(boomList.get(i));
 							
 							explode = true;

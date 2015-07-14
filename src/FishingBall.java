@@ -2,9 +2,6 @@ import java.awt.Color;
 
 public class FishingBall extends PokeBall
 {
-	
-	private boolean isAttached = false;
-
 	public FishingBall(World world, double radius, Color color) {
 		super(radius, color);
 		
@@ -23,16 +20,6 @@ public class FishingBall extends PokeBall
 			return true;
 		}
 		return false;
-	}
-	
-	public boolean isAttached()
-	{
-		return isAttached;
-	}
-	
-	public void attach(PokeBall ball)
-	{
-		isAttached = true;
 	}
 	
 }
