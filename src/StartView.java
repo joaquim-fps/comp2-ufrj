@@ -1,8 +1,14 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class StartView
 {
@@ -86,28 +92,7 @@ public class StartView
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-<<<<<<< HEAD
 			controller.setUpIdentificationScreen();
-=======
-			
-			
-			new Thread() {
-
-		        @Override
-		        public void run() {
-		        	Object o = event.getSource();
-		        	if(o.equals(bPlay))
-		        	{
-		        		controller.startGame();
-		        	}
-		        	/*else if(o.equals())
-		        	{
-		        	
-		        	}*/
-
-		        }
-		    }.start();
->>>>>>> origin/master
 		}
 	}
 }
