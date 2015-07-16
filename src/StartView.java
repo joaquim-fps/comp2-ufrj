@@ -70,16 +70,7 @@ public class StartView
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-			
-			
-			new Thread() {
-
-		        @Override
-		        public void run() {
-		        	controller.startGame();
-
-		        }
-		    }.start();
+			controller.setUpIdentificationScreen();
 		}
 	}
 }

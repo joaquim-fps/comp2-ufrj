@@ -1,10 +1,13 @@
+import java.awt.Color;
 import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameView
 {
 	private GameModel gameModel;
+	private Player player;
 	private JFrame frame;
 	private MyDrawPanel drawPanel;
 	
@@ -63,10 +66,18 @@ public class GameView
 				draw(ball, g);
 			}
 			
+			for (CherishBall ball : gameModel.getCherishList())
+			{
+				draw(ball, g);
+			}
+			
 			for (MasterBall ball : gameModel.getMasterList())
 			{
 				draw(ball, g);
 			}
+			
+			g.setColor(Color.BLACK);
+			g.drawString("Score: " + Integer.toString(player.getScore()), 15, 15);
 		}
 	}
 
@@ -88,5 +99,13 @@ public class GameView
 
 	public GameModel getGameModel() {
 		return gameModel;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }

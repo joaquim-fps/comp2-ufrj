@@ -10,16 +10,20 @@ public class GameModel
 {
 	private GameController gameController;
 	private GameView gameView;
+	private Player player;
 	private World world;
 	private ArrayList<BoomBall> boomList;
 	private ArrayList<MasterBall> masterList;
 	private ArrayList<FishingBall> fishingList;
+	private ArrayList<CherishBall> cherishList;
 	private double raio = 30;
 	private int width;
 	private int height;
 	private int quantTargets = 10;
-	private Color background = Color.BLUE;
-	private int chance = 50;//porcentagem de chance de uma bola alvo aparecer a cada frame do jogo
+	private Color background = Color.WHITE;
+	private int chanceBoom = 50;//porcentagem de chance dessa bola aparecer a cada frame do jogo
+	private int chanceFishing = 50;
+	private int chanceCherish = 10;
 	private boolean explode = false;
 	private boolean roda = true;
 	private boolean isPaused = false;
@@ -33,6 +37,7 @@ public class GameModel
 		fishingList = new ArrayList<FishingBall>();
 		masterList = new ArrayList<MasterBall>();
 		boomList = new ArrayList<BoomBall>();
+		cherishList = new ArrayList<CherishBall>();
 		BoomBall b = null;
 		MasterBall c = null;
 		FishingBall auxBall = null;
@@ -61,7 +66,7 @@ public class GameModel
 	
 	public void createFishingBall()
 	{
-		if (((int)(Math.random()*100)) % (101-chance) == 0)
+		if (((int)(Math.random()*100)) % (101-chanceFishing) == 0)
 		{
 			FishingBall auxBall = new FishingBall(world, raio, Color.GREEN);
 			fishingList.add(auxBall);
@@ -70,10 +75,19 @@ public class GameModel
 	
 	public void createBoomBall()
 	{
-		if (((int)(Math.random()*100)) % (101-chance) == 0)
+		if (((int)(Math.random()*100)) % (101-chanceBoom) == 0)
 		{
 			BoomBall auxBall = new BoomBall(world, raio, Color.MAGENTA);
 			boomList.add(auxBall);
+		}
+	}
+	
+	public void createCherishBall()
+	{
+		if (((int)(Math.random()*100)) % (101-chanceCherish) == 0)
+		{
+			CherishBall auxBall = new CherishBall(world, raio, Color.BLUE);
+			cherishList.add(auxBall);
 		}
 	}
 	
@@ -96,6 +110,18 @@ public class GameModel
 			if (boomList.get(i).hasCollidedWithBottom(world))
 			{
 				boomList.remove(boomList.get(i));
+			}
+		}
+	}
+	
+	public void updateCherishBalls()
+	{
+		for (int i = 0; i < cherishList.size(); i++)
+		{
+			cherishList.get(i).move(world);
+			if (cherishList.get(i).hasCollidedWithBottom(world))
+			{
+				cherishList.remove(cherishList.get(i));
 			}
 		}
 	}
@@ -175,17 +201,84 @@ public class GameModel
 		}
 	}
 	
+	public void collectPoints()
+	{
+		for (int i = 0; i < masterList.size(); i++) {
+			if (!cherishList.isEmpty()) {
+				for (int j = 0; j < cherishList.size(); j++) {
+					if (masterList.get(i).hasCollided(cherishList.get(j))) 
+					{
+						int points = 0;
+						cherishList.remove(cherishList.get(j));
+						
+						if (masterList.size() > 1)
+						{
+							if (masterList.size() == 4)//se tiver 3 bolas verdes
+							{
+								points = 1;
+							}
+							else if (masterList.size() == 5)//se tiver 4 bolas verdes
+							{
+								points = 5;
+							}
+							else if (masterList.size() == 6)//se tiver 5 bolas verdes
+							{
+								points = 11;
+							}
+							else if(masterList.size() == 7)//se tiver 6 bolas verdes
+							{
+								points = 17;
+							}
+							else if(masterList.size() == 8)//se tiver 7 bolas verdes
+							{
+								points = 25;
+							}
+							else if(masterList.size() == 9)//se tiver 8 bolas verdes
+							{
+								points = 33;
+							}
+							else if(masterList.size() == 10)//se tiver 9 bolas verdes
+							{
+								points = 41;
+							}
+							else if(masterList.size() >= 11)//se tiver 10 ou mais bolas verdes
+							{
+								points = 51;
+							}
+							score(points);
+							
+							for (int k = masterList.size()-1; k >= 1; k--)
+							{
+								masterList.remove(masterList.get(k));
+							}
+						}
+						
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	public void update()
 	{
 		if (!isPaused)
 		{
 			createFishingBall();
 			createBoomBall();
+			createCherishBall();
 			updateFishingBalls();
 			updateBoomBalls();
+			updateCherishBalls();
 			updateMasterBalls();
 			blowUpBalls();
+			collectPoints();
 		}
+	}
+	
+	public void score(int points)
+	{
+		player.score(points);
 	}
 	
 	private Point geraPonto(double raio)
@@ -246,6 +339,14 @@ public class GameModel
 		this.gameView = gameView;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
 	public World getWorld() {
 		return world;
 	}
@@ -276,6 +377,14 @@ public class GameModel
 
 	public void setFishingList(ArrayList<FishingBall> fishingList) {
 		this.fishingList = fishingList;
+	}
+
+	public ArrayList<CherishBall> getCherishList() {
+		return cherishList;
+	}
+
+	public void setCherishList(ArrayList<CherishBall> cherishList) {
+		this.cherishList = cherishList;
 	}
 
 	public double getRaio() {
@@ -318,11 +427,27 @@ public class GameModel
 		this.background = background;
 	}
 
-	public int getChance() {
-		return chance;
+	public int getChanceBoom() {
+		return chanceBoom;
 	}
 
-	public void setChance(int chance) {
-		this.chance = chance;
+	public void setChanceBoom(int chanceBoom) {
+		this.chanceBoom = chanceBoom;
+	}
+
+	public int getChanceFishing() {
+		return chanceFishing;
+	}
+
+	public void setChanceFishing(int chanceFishing) {
+		this.chanceFishing = chanceFishing;
+	}
+
+	public int getChanceCherish() {
+		return chanceCherish;
+	}
+
+	public void setChanceCherish(int chanceCherish) {
+		this.chanceCherish = chanceCherish;
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameOverView
@@ -11,6 +12,7 @@ public class GameOverView
 	private JFrame frame;
 	private JPanel panel;
 	private JButton exitButton, playAgainButton;
+	private JLabel playerName, playerScore;
 	private Controller controller;
 	
 	public void setUp()
@@ -21,10 +23,15 @@ public class GameOverView
 		playAgainButton = new JButton("Play Again");
 		playAgainButton.addActionListener(new PlayAgainButtonListener());
 		
+		playerName = new JLabel("Name: " + controller.getPlayer().getName());
+		playerScore = new JLabel("Score: " + Integer.toString(controller.getPlayer().getScore()));
+		
 		panel = new JPanel();
 		panel.setBackground(Color.white);
-		panel.add(exitButton);
+		panel.add(playerName);
+		panel.add(playerScore);
 		panel.add(playAgainButton);
+		panel.add(exitButton);
 		
 		frame = new JFrame("Drifts");
 		frame.getContentPane().add(panel);
@@ -86,6 +93,22 @@ public class GameOverView
 
 	public void setPlayAgainButton(JButton playAgainButton) {
 		this.playAgainButton = playAgainButton;
+	}
+
+	public JLabel getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(JLabel playerName) {
+		this.playerName = playerName;
+	}
+
+	public JLabel getPlayerScore() {
+		return playerScore;
+	}
+
+	public void setPlayerScore(JLabel playerScore) {
+		this.playerScore = playerScore;
 	}
 
 	public Controller getController() {

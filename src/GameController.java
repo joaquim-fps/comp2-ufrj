@@ -4,12 +4,21 @@ public class GameController
 	private GameModel gameModel;
 	private GameView gameView;
 	private Controller controller;
+	private Player player;
+	
+	public GameController()
+	{
+		gameModel = new GameModel();
+		gameView = new GameView();
+	}
 	
 	public void setUpGame()
 	{
 		gameModel.setGameController(this);
+		gameModel.setPlayer(player);
 		gameModel.setGameView(gameView);
 		gameView.setGameModel(gameModel);
+		gameView.setPlayer(player);
 		
 		gameView.setUp();
 	}
@@ -31,12 +40,6 @@ public class GameController
 		controller.gameOver();
 	}
 	
-	public GameController()
-	{
-		gameModel = new GameModel();
-		gameView = new GameView();
-	}
-	
 	public GameModel getGameModel() {
 		return gameModel;
 	}
@@ -56,5 +59,13 @@ public class GameController
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }

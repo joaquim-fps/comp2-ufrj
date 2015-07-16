@@ -6,7 +6,10 @@ public class PokeBall {
 	private double radius;
 	private Color color;
 	
-	public PokeBall() {}
+	public PokeBall()
+	{
+		super();
+	}
 	
 	public PokeBall(Point center, Velocity v, double radius, Color color) {
 		this.center = center;
