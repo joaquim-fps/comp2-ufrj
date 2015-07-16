@@ -7,6 +7,7 @@ public class Controller
 	private GameModel gameModel;
 	private GameOverView gameOverView;
 	private Player player;
+	private Record record;
 	
 	public void go()
 	{
@@ -41,8 +42,14 @@ public class Controller
 	
 	public void gameOver()
 	{
+		record = new Record();
+		record.load();
+		record.add(player);
+		record.save();
+		
 		gameOverView = new GameOverView();
 		gameOverView.setController(this);
+		gameOverView.setRecord(record);
 		gameOverView.setUp();
 	}
 	
@@ -106,5 +113,13 @@ public class Controller
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public Record getRecord() {
+		return record;
+	}
+
+	public void setRecord(Record record) {
+		this.record = record;
 	}
 }

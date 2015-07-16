@@ -1,7 +1,9 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,25 +14,41 @@ public class GameOverView
 	private JFrame frame;
 	private JPanel panel;
 	private JButton exitButton, playAgainButton;
-	private JLabel playerName, playerScore;
+	private JLabel label;
 	private Controller controller;
+	private Record record;
 	
 	public void setUp()
 	{
 		exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ExitButtonListener());
+		exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		playAgainButton = new JButton("Play Again");
 		playAgainButton.addActionListener(new PlayAgainButtonListener());
+		playAgainButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		playerName = new JLabel("Name: " + controller.getPlayer().getName());
-		playerScore = new JLabel("Score: " + Integer.toString(controller.getPlayer().getScore()));
+		label = new JLabel("High Scores:");
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		panel = new JPanel();
 		panel.setBackground(Color.white);
-		panel.add(playerName);
-		panel.add(playerScore);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(new JLabel("<html><body><br></body></html>"));
+		panel.add(label);
+		panel.add(new JLabel("<html><body><br></body></html>"));
+		
+		for (int i = 0; i < record.getPlayers().size(); i++)
+		{
+			JLabel l = new JLabel(Integer.toString(i+1) + ".  " + record.getPlayers().get(i).getName() + " -- " +
+					Integer.toString(record.getPlayers().get(i).getScore()));
+			l.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panel.add(l);
+		}
+		
+		panel.add(new JLabel("<html><body><br></body></html>"));
 		panel.add(playAgainButton);
+		panel.add(new JLabel("<html><body><br></body></html>"));
 		panel.add(exitButton);
 		
 		frame = new JFrame("Drifts");
@@ -95,27 +113,19 @@ public class GameOverView
 		this.playAgainButton = playAgainButton;
 	}
 
-	public JLabel getPlayerName() {
-		return playerName;
-	}
-
-	public void setPlayerName(JLabel playerName) {
-		this.playerName = playerName;
-	}
-
-	public JLabel getPlayerScore() {
-		return playerScore;
-	}
-
-	public void setPlayerScore(JLabel playerScore) {
-		this.playerScore = playerScore;
-	}
-
 	public Controller getController() {
 		return controller;
 	}
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+
+	public Record getRecord() {
+		return record;
+	}
+
+	public void setRecord(Record record) {
+		this.record = record;
 	}
 }
