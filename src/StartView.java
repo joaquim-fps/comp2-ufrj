@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -18,59 +19,48 @@ public class StartView
 {
 	private JFrame frame;
 	private CardLayout c1;
-	private JPanel panels, headPanel, playPanel, configPanel;
+	private JPanel panels, initPanel, headPanel, playPanel, configPanel;
 	private JButton bPlay, bInstr , bConfig ;
 	JTextField textField;
-	private JLabel gamesName,group;
+	Font font = new Font("serif",Font.BOLD,13);
+	
 	private Controller controller;
 	private String player;
 	
+	class HeadPanel extends JPanel
+	{
+		private JLabel gamesName,group;
+		HeadPanel()
+		{
+			setBackground(Color.LIGHT_GRAY); 
+			setLayout(new BoxLayout( this , BoxLayout.Y_AXIS ));
+			
+			gamesName = new JLabel(" PokeBalls Drifting ");
+			group = new JLabel("Bruno Ferraz \n Joaquim Ferreira \n Vitor Barcellos");
+			
+			Font fontTitle = new Font("serif",Font.BOLD,32);
+			gamesName.setFont(fontTitle);
+			group.setFont(font);
+			
+			add(gamesName);
+			add(group);
+		}
+	}
+	
 	public StartView()
 	{
-		gamesName = new JLabel(" PokeBalls Drifting ");
-		group = new JLabel("Bruno Ferraz \n Joaquim Ferreira \n Vitor Barcellos");
-		Font font = new Font("serif",Font.BOLD,32);
-		gamesName.setFont(font);
-		
+	
 		textField = new JTextField("Digite Seu nome", 20);
+		textField.setFont(font);
 		textField.addActionListener(new ButtonListener());
 		
-		headPanel = new JPanel();
-		headPanel.setBackground(Color.white);
-		BoxLayout box = new BoxLayout( headPanel , BoxLayout.Y_AXIS );
-		headPanel.setLayout(box);
-		headPanel.add(gamesName);
-		headPanel.add(group);
-		headPanel.addMouseListener(new MouseListener(){
-			public void mouseClicked(MouseEvent m)
-			{
-				c1.show(panels, "Jogar");
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		initPanel = new JPanel();
+		initPanel.setBackground(Color.white);
+		
+		
+		initPanel.add(new HeadPanel(),BorderLayout.NORTH);
+		initPanel.add(new JLabel("Clique para Iniciar"), BorderLayout.SOUTH);
+		initPanel.addMouseListener(new MyMouseListener());
 		
 		bPlay = new JButton("Play");
 		bPlay.addActionListener(new ButtonListener());
@@ -78,8 +68,8 @@ public class StartView
 		
 		playPanel = new JPanel();
 		playPanel.setBackground(Color.white);
-		box = new BoxLayout( playPanel , BoxLayout.Y_AXIS );
-		playPanel.setLayout(box);
+		playPanel.setLayout( new BoxLayout( playPanel , BoxLayout.Y_AXIS ));
+		playPanel.add(new HeadPanel(), BorderLayout.NORTH);
 		playPanel.add(textField);
 		playPanel.add(bPlay);
 		
@@ -97,17 +87,11 @@ public class StartView
 	}
 	
 	public void go()
-	{
-		
-		
-//		panels = new JPanel(new CardLayout());
-//		panels.add(headPanel, "Inicio");
-//		panels.add(playPanel, "Jogar");
-		
+	{	
 		c1 = new CardLayout();
 		panels = new JPanel();
 		panels.setLayout(c1);
-		panels.add(headPanel, "Inicio");
+		panels.add(initPanel, "Inicio");
 		panels.add(playPanel, "Jogar");
 		c1.show(panels,"Inicio");
 		
@@ -159,48 +143,37 @@ public class StartView
 	public String getPlayer() {
 		return player;
 	}
-	
-//	 Tentei Forçar uma Substituição no frame, quando o player quisesse começar o jogo. 
-//	 Quando fosse dar play, apareceria um TextField para que o jogador digitasse o no-
-//	 me para ser gravado nos recordes.
-	
-//	public void setPlayer()
-//	{
-//				System.out.println("Cheguei aqui");
-//				frame.getContentPane().remove(bPlay);
-//				
-//				JTextField text = new JTextField("Digite seu nome para os recordes");
-//				text.addActionListener(new ButtonListener());
-//				frame.getContentPane().add(text);
-//	}
 
 	class ButtonListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent event)
 		{
-		        	Object o = event.getSource();
-		        	if(o instanceof JButton)
-		        	{
-			        	if(o.equals(bPlay))
-			        	{
-//			        		setPlayer();
-			        		player = textField.getText();
-				        	start(player);
-			        	}
-			        	else if(o.equals(bInstr))
-			        	{
-			        		//controller.showInstructions;
-			        	}
-			        	else if(o.equals(bConfig))
-			        	{
-			        		//controller.Config;
-			        	}
-			        }
-			        else
-			        {
-			        	player = textField.getText();
-			        	start(player);
-			        }
+        	Object o = event.getSource();
+        	if(o instanceof JButton)
+        	{
+	        	if(o.equals(bPlay))
+	        	{
+//			        
+	        		player = textField.getText();
+		        	start(player);
+	        	}
+	        	else if(o.equals(bInstr))
+	        	{
+	        		//controller.showInstructions;
+	        	}
+	        	else if(o.equals(bConfig))
+	        	{
+	        		//controller.Config;
+	        	}
+	        }
+		}
+	}
+	class TextFieldListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
+        	player = textField.getText();
+        	start(player);
 		}
 	}
 	
@@ -213,5 +186,40 @@ public class StartView
 				controller.startGame();
 			}
 		}.start();
+	}
+	
+	class MyMouseListener implements MouseListener{
+		public void mouseClicked(MouseEvent m)
+		{
+			c1.show(panels, "Jogar");
+			textField.requestFocus();
+			textField.setSelectedTextColor(Color.BLACK);
+			textField.setSelectionColor(Color.LIGHT_GRAY);
+			textField.selectAll();
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }
