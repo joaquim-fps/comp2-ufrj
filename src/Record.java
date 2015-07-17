@@ -21,6 +21,7 @@ public class Record
 					players.remove(players.get(i));
 					players.add(player);
 					Collections.sort(players, new ScoreComparator());
+					new SoundPlayer().cheer();
 					return;
 				}
 				else return;
@@ -40,6 +41,7 @@ public class Record
 					players.remove(players.get(i));
 					players.add(player);
 					Collections.sort(players, new ScoreComparator());
+					new SoundPlayer().cheer();
 					break;
 				}
 			}

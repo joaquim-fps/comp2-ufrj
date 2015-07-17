@@ -52,7 +52,7 @@ public class StartView
 	
 		textField = new JTextField("Digite Seu nome", 20);
 		textField.setFont(font);
-		textField.addActionListener(new ButtonListener());
+		textField.addActionListener(new TextFieldListener());
 		
 		initPanel = new JPanel();
 		initPanel.setBackground(Color.white);

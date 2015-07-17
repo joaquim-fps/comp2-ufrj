@@ -28,6 +28,7 @@ public class GameModel
 	private boolean roda = true;
 	private boolean isPaused = false;
 	private KeyboardFocusManager manager;
+	private SoundPlayer soundPlayer;
 	
 	public GameModel () {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,6 +42,7 @@ public class GameModel
 		BoomBall b = null;
 		MasterBall c = null;
 		FishingBall auxBall = null;
+		soundPlayer = new SoundPlayer();
 		
 		for (int i = 0; i < quantTargets; i ++) {
 			auxBall = new FishingBall (world, raio, Color.GREEN);
@@ -139,6 +141,7 @@ public class GameModel
 				for (int i = 0; i < fishingList.size(); i++) {
 					if (chief.hasCollided(fishingList.get(i))) 
 					{
+						soundPlayer.playSound(1);
 						MasterBall aux = new MasterBall(fishingList.get(i).getCenter(), fishingList.get(i).getRadius(), fishingList.get(i).getColor());
 						fishingList.remove(fishingList.get(i));
 						aux.setDeltaX(masterList.get(0).getCenter().getPx() - aux.getCenter().getPx());
@@ -157,9 +160,11 @@ public class GameModel
 						{
 							if (masterList.size() == 1)
 							{
+								soundPlayer.playSound(2);
 								roda = false;
 								break;
 							}
+							soundPlayer.playSound(3);
 							boomList.remove(boomList.get(i));
 							
 							explode = true;
@@ -208,6 +213,7 @@ public class GameModel
 				for (int j = 0; j < cherishList.size(); j++) {
 					if (masterList.get(i).hasCollided(cherishList.get(j))) 
 					{
+						soundPlayer.playSound(4);
 						int points = 0;
 						cherishList.remove(cherishList.get(j));
 						
