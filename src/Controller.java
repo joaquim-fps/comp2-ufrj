@@ -31,7 +31,7 @@ public class Controller
 	
 	public void startGame()
 	{
-		idView.finish();
+		startView.finish();
 		
 		gameController = new GameController();
 		gameController.setController(this);
