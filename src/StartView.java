@@ -66,7 +66,7 @@ public class StartView
 			easy = new JButton("Easy");
 			easy.addActionListener(new ConfigListener());
 			easy.setFont(font);
-			
+						
 			med = new JButton("Medium");
 			med.addActionListener(new ConfigListener());
 			med.setFont(font);
@@ -118,7 +118,7 @@ public class StartView
 		
 		configPanel = new JPanel();
 		configPanel.setBackground(Color.WHITE);
-		configPanel.setLayout( new BoxLayout( configPanel , BoxLayout.Y_AXIS ));
+//		configPanel.setLayout( new BoxLayout( configPanel , BoxLayout.Y_AXIS ));
 		configPanel.add(new HeadPanel(), BorderLayout.NORTH);
 		configPanel.add(new ConfigPanel());
 		
