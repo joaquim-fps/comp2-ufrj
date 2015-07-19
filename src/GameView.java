@@ -1,5 +1,7 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -76,7 +78,10 @@ public class GameView
 			}
 			
 			g.setColor(Color.BLACK);
-			g.drawString("Score: " + Integer.toString(player.getScore()), 15, 15);
+			g.setFont(new Font("Arial", Font.BOLD, 20));
+			g.drawString("Score: " + Integer.toString(player.getScore()), 15, 20);
+			g.setFont(new Font("Arial", Font.BOLD, 40));
+			g.drawString("Pokeballs Drifting", 500, 35);
 		}
 	}
 
