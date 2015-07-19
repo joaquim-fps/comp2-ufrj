@@ -1,27 +1,18 @@
 public class Controller
 {
 	private StartView startView;
-	private IdentificationView idView;
 	private GameController gameController;
 	private GameView gameView;
 	private GameModel gameModel;
 	private GameOverView gameOverView;
 	private Player player;
+	private ConfigModel config;
 	private Record record;
 	
 	public void go()
 	{
 		startView = new StartView();
 		startView.setController(this);
-	}
-	
-	public void setUpIdentificationScreen()
-	{
-		startView.finish();
-		
-		idView = new IdentificationView();
-		idView.setController(this);
-		idView.setUp();
 	}
 	
 	public void createPlayer(String name)
@@ -67,14 +58,6 @@ public class Controller
 		this.startView = startView;
 	}
 
-	public IdentificationView getIdView() {
-		return idView;
-	}
-
-	public void setIdView(IdentificationView idView) {
-		this.idView = idView;
-	}
-
 	public GameController getGameController() {
 		return gameController;
 	}
@@ -113,6 +96,14 @@ public class Controller
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+	
+	public ConfigModel getConfig() {
+		return config;
+	}
+
+	public void setConfig(ConfigModel config) {
+		this.config = config;
 	}
 
 	public Record getRecord() {

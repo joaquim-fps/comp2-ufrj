@@ -19,11 +19,11 @@ public class GameModel
 	private double raio = 30;
 	private int width;
 	private int height;
-	private int quantTargets = 10;
+	private int quantTargets;
 	private Color background = Color.WHITE;
-	private int chanceBoom = 50;//porcentagem de chance dessa bola aparecer a cada frame do jogo
-	private int chanceFishing = 50;
-	private int chanceCherish = 10;
+	private int chanceBoom;//porcentagem de chance dessa bola aparecer a cada frame do jogo
+	private int chanceFishing;
+	private int chanceCherish;
 	private boolean explode = false;
 	private boolean roda = true;
 	private boolean isPaused = false;
@@ -31,6 +31,7 @@ public class GameModel
 	private SoundPlayer soundPlayer;
 	
 	public GameModel () {
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int)screenSize.getWidth();
 		height = (int)screenSize.getHeight()-35;
@@ -39,10 +40,14 @@ public class GameModel
 		masterList = new ArrayList<MasterBall>();
 		boomList = new ArrayList<BoomBall>();
 		cherishList = new ArrayList<CherishBall>();
+		soundPlayer = new SoundPlayer();
+	}
+	
+	public void go()
+	{
 		BoomBall b = null;
 		MasterBall c = null;
 		FishingBall auxBall = null;
-		soundPlayer = new SoundPlayer();
 		
 		for (int i = 0; i < quantTargets; i ++) {
 			auxBall = new FishingBall (world, raio, Color.GREEN);
@@ -64,6 +69,14 @@ public class GameModel
 		
 		manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new MyDispatcher());
+	}
+	
+	public void setConfig(ConfigModel config)
+	{
+		quantTargets = config.getQuantTargets();
+		chanceBoom = config.getChanceBoom();
+		chanceCherish = config.getChanceCherish();
+		chanceFishing = config.getChanceFishing();
 	}
 	
 	public void createFishingBall()

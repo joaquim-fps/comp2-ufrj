@@ -19,8 +19,15 @@ public class StartView
 {
 	private JFrame frame;
 	private CardLayout c1;
-	private JPanel panels, initPanel, headPanel, playPanel, configPanel;
-	private JButton bPlay, bInstr , bConfig ;
+	private JPanel 	panels,
+					initPanel, 
+					playPanel, 
+					configPanel;
+	private JButton bPlay,
+					iPlay,
+					iConfig,
+					bInstr,
+					bConfig;
 	JTextField textField;
 	Font font = new Font("serif",Font.BOLD,13);
 	
@@ -47,20 +54,52 @@ public class StartView
 		}
 	}
 	
+	class ConfigPanel extends JPanel
+	{
+		private JButton easy,med,hard;
+		
+		public ConfigPanel()
+		{
+			setBackground(Color.LIGHT_GRAY);
+			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+			
+			easy = new JButton("Easy");
+			easy.addActionListener(new ConfigListener());
+			easy.setFont(font);
+			
+			med = new JButton("Medium");
+			med.addActionListener(new ConfigListener());
+			med.setFont(font);
+			
+			hard = new JButton("Hard");
+			hard.addActionListener(new ConfigListener());
+			hard.setFont(font);
+			
+			add(easy);
+			add(med);
+			add(hard);
+		}
+	}
+	
 	public StartView()
 	{
-	
 		textField = new JTextField("Digite Seu nome", 20);
 		textField.setFont(font);
 		textField.addActionListener(new TextFieldListener());
 		
 		initPanel = new JPanel();
 		initPanel.setBackground(Color.white);
-		
-		
 		initPanel.add(new HeadPanel(),BorderLayout.NORTH);
-		initPanel.add(new JLabel("Clique para Iniciar"), BorderLayout.SOUTH);
-		initPanel.addMouseListener(new MyMouseListener());
+		
+		iPlay = new JButton("Play");
+		iPlay.addActionListener(new ChangeLayoutListener());
+		iConfig = new JButton("Config.");
+		iConfig.addActionListener(new ChangeLayoutListener());
+		
+		initPanel.add(iPlay,BorderLayout.EAST);
+		initPanel.add(iConfig,BorderLayout.WEST);
+//		initPanel.add(new JLabel("Clique para Iniciar"), BorderLayout.SOUTH);
+//		initPanel.addMouseListener(new MyMouseListener());
 		
 		bPlay = new JButton("Play");
 		bPlay.addActionListener(new ButtonListener());
@@ -73,9 +112,15 @@ public class StartView
 		playPanel.add(textField);
 		playPanel.add(bPlay);
 		
-		bConfig = new JButton("Configurar");
-		bConfig.addActionListener(new ButtonListener());
-		bPlay.setBackground(Color.LIGHT_GRAY);
+//		bConfig = new JButton("Configurar");
+//		bConfig.addActionListener(new ButtonListener());
+//		bConfig.setBackground(Color.LIGHT_GRAY);
+		
+		configPanel = new JPanel();
+		configPanel.setBackground(Color.WHITE);
+		configPanel.setLayout( new BoxLayout( configPanel , BoxLayout.Y_AXIS ));
+		configPanel.add(new HeadPanel(), BorderLayout.NORTH);
+		configPanel.add(new ConfigPanel());
 		
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -93,6 +138,7 @@ public class StartView
 		panels.setLayout(c1);
 		panels.add(initPanel, "Inicio");
 		panels.add(playPanel, "Jogar");
+		panels.add(configPanel,"Configurar");
 		c1.show(panels,"Inicio");
 		
 		frame = new JFrame("Drifts");
@@ -149,23 +195,8 @@ public class StartView
 		public void actionPerformed(ActionEvent event)
 		{
         	Object o = event.getSource();
-        	if(o instanceof JButton)
-        	{
-	        	if(o.equals(bPlay))
-	        	{
-//			        
-	        		player = textField.getText();
-		        	start(player);
-	        	}
-	        	else if(o.equals(bInstr))
-	        	{
-	        		//controller.showInstructions;
-	        	}
-	        	else if(o.equals(bConfig))
-	        	{
-	        		//controller.Config;
-	        	}
-	        }
+	        player = textField.getText();
+		    start(player);
 		}
 	}
 	class TextFieldListener implements ActionListener
@@ -188,38 +219,84 @@ public class StartView
 		}.start();
 	}
 	
-	class MyMouseListener implements MouseListener{
-		public void mouseClicked(MouseEvent m)
+	class ChangeLayoutListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
 		{
+			JButton button = (JButton) e.getSource();
+			if(button.getText().compareTo("Play") == 0)
+			{
+				c1.show(panels, "Jogar");
+				textField.requestFocus();
+				textField.setSelectedTextColor(Color.BLACK);
+				textField.setSelectionColor(Color.LIGHT_GRAY);
+				textField.selectAll();
+				controller.setConfig(new ConfigModel("medium"));
+			}
+			else if(button.getText().compareTo("Config.") == 0)
+			{
+				c1.show(panels,"Configurar");
+			}
+		}
+	}
+	
+//	class MyMouseListener implements MouseListener{
+//		public void mouseClicked(MouseEvent m)
+//		{
+//			c1.show(panels, "Jogar");
+//			textField.requestFocus();
+//			textField.setSelectedTextColor(Color.BLACK);
+//			textField.setSelectionColor(Color.LIGHT_GRAY);
+//			textField.selectAll();
+//		}
+//
+//		@Override
+//		public void mouseEntered(MouseEvent arg0) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void mouseExited(MouseEvent arg0) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void mousePressed(MouseEvent arg0) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void mouseReleased(MouseEvent arg0) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//	}
+	
+	class ConfigListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			JButton button = (JButton) e.getSource();
+			if(button.getText().compareTo("Easy") == 0)
+			{
+				controller.setConfig(new ConfigModel("easy"));
+			}
+			else if(button.getText().compareTo("Easy") == 0)
+			{
+				controller.setConfig(new ConfigModel("medium"));
+			}
+			else
+			{
+				controller.setConfig(new ConfigModel("hard"));
+			}
 			c1.show(panels, "Jogar");
 			textField.requestFocus();
 			textField.setSelectedTextColor(Color.BLACK);
 			textField.setSelectionColor(Color.LIGHT_GRAY);
 			textField.selectAll();
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 }

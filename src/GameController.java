@@ -15,14 +15,16 @@ public class GameController
 	public void setUpGame()
 	{
 		gameModel.setGameController(this);
+		gameModel.setConfig(controller.getConfig());
 		gameModel.setPlayer(player);
 		gameModel.setGameView(gameView);
 		gameView.setGameModel(gameModel);
 		gameView.setPlayer(player);
 		
+		gameModel.go();
 		gameView.setUp();
 	}
-	
+
 	public void playGame()
 	{
 		while (gameModel.isGameRunning())
@@ -68,4 +70,5 @@ public class GameController
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+	
 }
