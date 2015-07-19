@@ -33,9 +33,9 @@ public class ConfigModel {
 	private void setConfigHard() 
 	{
 		quantTargets = 10;
-		chanceBoom = 50;
-		chanceFishing = 50;
-		chanceCherish = 10;
+		chanceBoom = 60;
+		chanceFishing = 35;
+		chanceCherish = 5;
 	}
 
 	private void setConfigMed() 
@@ -49,9 +49,9 @@ public class ConfigModel {
 	private void setConfigEasy() 
 	{
 		quantTargets = 10;
-		chanceBoom = 50;
+		chanceBoom = 15;
 		chanceFishing = 50;
-		chanceCherish = 10;
+		chanceCherish = 20;
 	}
 	
 	public int getQuantTargets() {
