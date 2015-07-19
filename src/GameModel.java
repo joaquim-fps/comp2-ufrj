@@ -306,10 +306,9 @@ public class GameModel
 
 		public boolean dispatchKeyEvent(KeyEvent e)
 		{
-			int id = e.getID();
-			if (id == KeyEvent.KEY_TYPED)
+			if (e.getID() == KeyEvent.KEY_TYPED)
 	        {
-	        	if (isPaused)
+				if (isPaused)
 	        	{
 	        		isPaused = false;
 	        	}
@@ -318,6 +317,11 @@ public class GameModel
 	        		isPaused = true;
 	        	}
 	        }
+			
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+			{
+				roda = false;
+			}
 			
 			return false;
 		}
