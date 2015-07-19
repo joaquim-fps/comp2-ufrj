@@ -8,11 +8,13 @@ public class Controller
 	private Player player;
 	private ConfigModel config;
 	private Record record;
+	private boolean hasSound = true;
 	
 	public void go()
 	{
 		startView = new StartView();
 		startView.setController(this);
+		startView.setUp();
 	}
 	
 	public void createPlayer(String name)
@@ -27,6 +29,7 @@ public class Controller
 		gameController = new GameController();
 		gameController.setController(this);
 		gameController.setPlayer(player);
+		gameController.setHasSound(hasSound);
 		gameController.setUpGame();
 		gameController.playGame();
 	}
@@ -48,6 +51,18 @@ public class Controller
 	{
 		gameOverView.finish();
 		go();
+	}
+	
+	public void changeSoundConfig()
+	{
+		if (hasSound)
+		{
+			hasSound = false;
+		}
+		else
+		{
+			hasSound = true;
+		}
 	}
 
 	public StartView getStartView() {
@@ -112,5 +127,13 @@ public class Controller
 
 	public void setRecord(Record record) {
 		this.record = record;
+	}
+
+	public boolean HasSound() {
+		return hasSound;
+	}
+
+	public void setHasSound(boolean hasSound) {
+		this.hasSound = hasSound;
 	}
 }

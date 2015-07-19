@@ -56,7 +56,7 @@ public class StartView
 	
 	class ConfigPanel extends JPanel
 	{
-		private JButton easy,med,hard;
+		private JButton easy,med,hard,sound;
 		
 		public ConfigPanel()
 		{
@@ -75,13 +75,26 @@ public class StartView
 			hard.addActionListener(new ConfigListener());
 			hard.setFont(font);
 			
+			if (controller.HasSound())
+			{
+				sound = new JButton("Sound: On");
+			}
+			else
+			{
+				sound = new JButton("Sound: Off");
+			}
+			sound.addActionListener(new SoundButtonListener());
+			sound.setFont(font);
+			
 			add(easy);
 			add(med);
 			add(hard);
+			add(new JLabel("<html><body><br></body></html>"));
+			add(sound);
 		}
 	}
 	
-	public StartView()
+	public void setUp()
 	{
 		textField = new JTextField("Digite Seu nome", 20);
 		textField.setFont(font);
@@ -297,6 +310,24 @@ public class StartView
 			textField.setSelectedTextColor(Color.BLACK);
 			textField.setSelectionColor(Color.LIGHT_GRAY);
 			textField.selectAll();
+		}
+	}
+	
+	class SoundButtonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			JButton button = (JButton)e.getSource();
+			
+			if (button.getText().compareTo("Sound: On") == 0)
+			{
+				button.setText("Sound: Off");
+			}
+			else
+			{
+				button.setText("Sound: On");
+			}
+			controller.changeSoundConfig();
 		}
 	}
 }

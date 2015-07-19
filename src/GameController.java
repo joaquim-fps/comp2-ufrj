@@ -5,6 +5,7 @@ public class GameController
 	private GameView gameView;
 	private Controller controller;
 	private Player player;
+	private boolean hasSound;
 	
 	public GameController()
 	{
@@ -18,6 +19,7 @@ public class GameController
 		gameModel.setConfig(controller.getConfig());
 		gameModel.setPlayer(player);
 		gameModel.setGameView(gameView);
+		gameModel.setHasSound(hasSound);
 		gameView.setGameModel(gameModel);
 		gameView.setPlayer(player);
 		
@@ -69,6 +71,14 @@ public class GameController
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public boolean isHasSound() {
+		return hasSound;
+	}
+
+	public void setHasSound(boolean hasSound) {
+		this.hasSound = hasSound;
 	}
 	
 }

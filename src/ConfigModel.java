@@ -1,5 +1,3 @@
-import java.awt.Color;
-
 public class ConfigModel {
 	private int quantTargets;
 	private int chanceBoom;
@@ -85,6 +83,4 @@ public class ConfigModel {
 	public void setChanceCherish(int chanceCherish) {
 		this.chanceCherish = chanceCherish;
 	}
-
-	
 }
