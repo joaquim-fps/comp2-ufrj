@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -22,12 +23,12 @@ public class StartView
 	private JPanel 	panels,
 					initPanel, 
 					playPanel, 
-					configPanel;
+					configPanel,
+					instPanel;
 	private JButton bPlay,
 					iPlay,
 					iConfig,
-					bInstr,
-					bConfig;
+					iInst;
 	JTextField textField;
 	Font font = new Font("serif",Font.BOLD,13);
 	
@@ -94,6 +95,33 @@ public class StartView
 		}
 	}
 	
+	class InstPanel extends JPanel
+	{
+		private JTextArea inst;
+		private JButton button;
+		String txt = "\tINSTRUÇÕES\n Seu objetivo é capturar o maximo de bolas verdes e entregá-las às"
+				+ " gentis bolas azuis que estarão por perto.\n Mas tome cuidado, porque dizem que bandos de bolas verdes estão saqueando"
+				+ " nas redondezas.\n"
+				+ "Faça o máximo de entregas, desvie dessas turmas da pesada e nos deixe orgulhosos, Bola Vermelha !!!";
+		public InstPanel()
+		{
+			//setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+			
+			inst = new JTextArea(10,20);
+			inst.setEditable(false);
+			inst.setLineWrap(true);
+			inst.setWrapStyleWord(true);
+			inst.setText(txt);
+			
+			add(inst,BorderLayout.NORTH);
+			
+			button = new JButton("Back");
+			button.addActionListener(new ChangeLayoutListener());
+			
+			add(button,BorderLayout.SOUTH);
+		}
+	}
+	
 	public void setUp()
 	{
 		textField = new JTextField("Digite Seu nome", 20);
@@ -104,15 +132,17 @@ public class StartView
 		initPanel.setBackground(Color.white);
 		initPanel.add(new HeadPanel(),BorderLayout.NORTH);
 		
-		iPlay = new JButton("Play");
+		iPlay = new JButton("Play Now");
 		iPlay.addActionListener(new ChangeLayoutListener());
 		iConfig = new JButton("Config.");
 		iConfig.addActionListener(new ChangeLayoutListener());
+		iInst = new JButton("Instructions");
+		iInst.addActionListener(new ChangeLayoutListener());
 		
 		initPanel.add(iPlay,BorderLayout.EAST);
 		initPanel.add(iConfig,BorderLayout.WEST);
-//		initPanel.add(new JLabel("Clique para Iniciar"), BorderLayout.SOUTH);
-//		initPanel.addMouseListener(new MyMouseListener());
+		initPanel.add(iInst,BorderLayout.CENTER);
+
 		
 		bPlay = new JButton("Play");
 		bPlay.addActionListener(new ButtonListener());
@@ -125,15 +155,17 @@ public class StartView
 		playPanel.add(textField);
 		playPanel.add(bPlay);
 		
-//		bConfig = new JButton("Configurar");
-//		bConfig.addActionListener(new ButtonListener());
-//		bConfig.setBackground(Color.LIGHT_GRAY);
 		
 		configPanel = new JPanel();
 		configPanel.setBackground(Color.WHITE);
-//		configPanel.setLayout( new BoxLayout( configPanel , BoxLayout.Y_AXIS ));
 		configPanel.add(new HeadPanel(), BorderLayout.NORTH);
 		configPanel.add(new ConfigPanel());
+		
+		
+		instPanel = new JPanel();
+		instPanel.setBackground(Color.WHITE);
+		instPanel.add(new HeadPanel(), BorderLayout.NORTH);
+		instPanel.add(new InstPanel());
 		
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -152,6 +184,7 @@ public class StartView
 		panels.add(initPanel, "Inicio");
 		panels.add(playPanel, "Jogar");
 		panels.add(configPanel,"Configurar");
+		panels.add(instPanel,"Instruções");
 		c1.show(panels,"Inicio");
 		
 		frame = new JFrame("Drifts");
@@ -237,7 +270,7 @@ public class StartView
 		public void actionPerformed(ActionEvent e)
 		{
 			JButton button = (JButton) e.getSource();
-			if(button.getText().compareTo("Play") == 0)
+			if(button.getText().compareTo("Play Now") == 0)
 			{
 				c1.show(panels, "Jogar");
 				textField.requestFocus();
@@ -250,43 +283,16 @@ public class StartView
 			{
 				c1.show(panels,"Configurar");
 			}
+			else if(button.getText().compareTo("Back") == 0)
+			{
+				c1.show(panels,"Inicio");
+			}
+			else
+			{
+				c1.show(panels, "Instruções");
+			}
 		}
 	}
-	
-//	class MyMouseListener implements MouseListener{
-//		public void mouseClicked(MouseEvent m)
-//		{
-//			c1.show(panels, "Jogar");
-//			textField.requestFocus();
-//			textField.setSelectedTextColor(Color.BLACK);
-//			textField.setSelectionColor(Color.LIGHT_GRAY);
-//			textField.selectAll();
-//		}
-//
-//		@Override
-//		public void mouseEntered(MouseEvent arg0) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void mouseExited(MouseEvent arg0) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void mousePressed(MouseEvent arg0) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void mouseReleased(MouseEvent arg0) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//	}
 	
 	class ConfigListener implements ActionListener
 	{
