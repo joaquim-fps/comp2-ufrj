@@ -122,10 +122,12 @@ public class StartView
 	class InstPanel extends JPanel
 	{
 		private JTextArea inst;
-		String txt = "Seu objetivo é capturar o maximo de bolas verdes e entregá-las às"
-				+ " gentis bolas azuis que estarão por perto.\n Mas tome cuidado porque dizem que bandos de bolas verdes estão saqueando"
-				+ " nas redondezas.\n"
-				+ "Guie seu rato até as bolas verdes, faça o maximo de entregas e nos deixe orgulhosos, Bola Vermelha !!!";
+		String txt = "Seu objetivo é capturar as bolas verdes e entregar a cada 3 às"
+				+ " gentis bolas azuis que estarão por perto. Mas tome cuidado porque "
+				+ "bolas rosas estão saqueando nas redondezas, e se te pegarem sem "
+				+ "bolas, perderá.\n"
+				+ "Guie seu rato até as bolas verdes, faça o maximo de entregas e nos"
+				+ " deixe orgulhosos, Bola Vermelha !!!";
 		public InstPanel()
 		{
 			
