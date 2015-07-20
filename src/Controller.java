@@ -12,6 +12,7 @@ public class Controller
 	
 	public void go()
 	{
+		config = new ConfigModel("medium");
 		startView = new StartView();
 		startView.setController(this);
 		startView.setUp();

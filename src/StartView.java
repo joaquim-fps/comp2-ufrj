@@ -28,7 +28,8 @@ public class StartView
 	private JButton bPlay,
 					iPlay,
 					iConfig,
-					iInst;
+					iInst,
+					back;
 	JTextField textField;
 	Font font = new Font("serif",Font.BOLD,13);
 	
@@ -57,22 +58,28 @@ public class StartView
 	
 	class ConfigPanel extends JPanel
 	{
-		private JButton easy,med,hard,sound;
-		
+		private JButton easy,med,hard,sound,bPlay,iInst;
+		private JPanel dPanel,oPanel;
 		public ConfigPanel()
 		{
 			setBackground(Color.LIGHT_GRAY);
-			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+			setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+			
+			dPanel = new JPanel();
+			dPanel.setLayout(new BoxLayout(dPanel, BoxLayout.X_AXIS));
 			
 			easy = new JButton("Easy");
+			easy.setBackground(Color.LIGHT_GRAY);
 			easy.addActionListener(new ConfigListener());
 			easy.setFont(font);
 						
 			med = new JButton("Medium");
+			med.setBackground(Color.LIGHT_GRAY);
 			med.addActionListener(new ConfigListener());
 			med.setFont(font);
 			
 			hard = new JButton("Hard");
+			hard.setBackground(Color.LIGHT_GRAY);
 			hard.addActionListener(new ConfigListener());
 			hard.setFont(font);
 			
@@ -87,44 +94,67 @@ public class StartView
 			sound.addActionListener(new SoundButtonListener());
 			sound.setFont(font);
 			
-			add(easy);
-			add(med);
-			add(hard);
-			add(new JLabel("<html><body><br></body></html>"));
-			add(sound);
+			dPanel.add(easy);
+			dPanel.add(med);
+			dPanel.add(hard);
+			dPanel.add(new JLabel("<html><body><br></body></html>"));
+			dPanel.add(sound);
+			
+			
+			oPanel = new JPanel();
+			oPanel.setLayout(new BoxLayout(oPanel,BoxLayout.X_AXIS));
+			
+			bPlay = new JButton("Play Now");
+			bPlay.setBackground(Color.LIGHT_GRAY);
+			bPlay.addActionListener(new ChangeLayoutListener());
+			iInst = new JButton("Instructions");
+			iInst.setBackground(Color.LIGHT_GRAY);
+			iInst.addActionListener(new ChangeLayoutListener());
+			
+			oPanel.add(bPlay);
+			oPanel.add(iInst);
+			
+			add(dPanel,BorderLayout.NORTH);
+			add(oPanel,BorderLayout.SOUTH);
 		}
 	}
 	
 	class InstPanel extends JPanel
 	{
 		private JTextArea inst;
-		private JButton button;
-		String txt = "\tINSTRUÇÕES\n Seu objetivo é capturar o maximo de bolas verdes e entregá-las às"
-				+ " gentis bolas azuis que estarão por perto.\n Mas tome cuidado, porque dizem que bandos de bolas verdes estão saqueando"
+		String txt = "Seu objetivo é capturar o maximo de bolas verdes e entregá-las às"
+				+ " gentis bolas azuis que estarão por perto.\n Mas tome cuidado porque dizem que bandos de bolas verdes estão saqueando"
 				+ " nas redondezas.\n"
-				+ "Faça o máximo de entregas, desvie dessas turmas da pesada e nos deixe orgulhosos, Bola Vermelha !!!";
+				+ "Guie seu rato até as bolas verdes, faça o maximo de entregas e nos deixe orgulhosos, Bola Vermelha !!!";
 		public InstPanel()
 		{
-			//setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 			
 			inst = new JTextArea(10,20);
 			inst.setEditable(false);
 			inst.setLineWrap(true);
 			inst.setWrapStyleWord(true);
 			inst.setText(txt);
+			inst.setFont(font);
 			
 			add(inst,BorderLayout.NORTH);
 			
-			button = new JButton("Back");
-			button.addActionListener(new ChangeLayoutListener());
-			
-			add(button,BorderLayout.SOUTH);
+			add(new BackButton(),BorderLayout.SOUTH);
+		}
+	}
+	
+	class BackButton extends JButton
+	{
+		public BackButton()
+		{
+			super("Back");
+			setBackground(Color.LIGHT_GRAY);
+			addActionListener(new ChangeLayoutListener());
 		}
 	}
 	
 	public void setUp()
 	{
-		textField = new JTextField("Digite Seu nome", 20);
+		textField = new JTextField("Digite Seu nome - Tecle Enter", 20);
 		textField.setFont(font);
 		textField.addActionListener(new TextFieldListener());
 		
@@ -133,10 +163,13 @@ public class StartView
 		initPanel.add(new HeadPanel(),BorderLayout.NORTH);
 		
 		iPlay = new JButton("Play Now");
+		iPlay.setBackground(Color.LIGHT_GRAY);
 		iPlay.addActionListener(new ChangeLayoutListener());
 		iConfig = new JButton("Config.");
+		iConfig.setBackground(Color.LIGHT_GRAY);
 		iConfig.addActionListener(new ChangeLayoutListener());
 		iInst = new JButton("Instructions");
+		iInst.setBackground(Color.LIGHT_GRAY);
 		iInst.addActionListener(new ChangeLayoutListener());
 		
 		initPanel.add(iPlay,BorderLayout.EAST);
@@ -150,10 +183,10 @@ public class StartView
 		
 		playPanel = new JPanel();
 		playPanel.setBackground(Color.white);
-		playPanel.setLayout( new BoxLayout( playPanel , BoxLayout.Y_AXIS ));
 		playPanel.add(new HeadPanel(), BorderLayout.NORTH);
 		playPanel.add(textField);
-		playPanel.add(bPlay);
+		playPanel.add(bPlay,BorderLayout.WEST);
+		playPanel.add(new BackButton());
 		
 		
 		configPanel = new JPanel();
@@ -166,6 +199,7 @@ public class StartView
 		instPanel.setBackground(Color.WHITE);
 		instPanel.add(new HeadPanel(), BorderLayout.NORTH);
 		instPanel.add(new InstPanel());
+		
 		
 		SwingUtilities.invokeLater(new Runnable()
 		{
@@ -206,22 +240,6 @@ public class StartView
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
-	}
-
-	public JPanel getPanels() {
-		return panels;
-	}
-
-	public void setPanels(JPanel panels) {
-		this.panels = panels;
-	}
-
-	public JButton getButton() {
-		return bPlay;
-	}
-
-	public void setButton(JButton bPlay) {
-		this.bPlay = bPlay;
 	}
 
 	public Controller getController() {
@@ -277,7 +295,6 @@ public class StartView
 				textField.setSelectedTextColor(Color.BLACK);
 				textField.setSelectionColor(Color.LIGHT_GRAY);
 				textField.selectAll();
-				controller.setConfig(new ConfigModel("medium"));
 			}
 			else if(button.getText().compareTo("Config.") == 0)
 			{
@@ -311,11 +328,6 @@ public class StartView
 			{
 				controller.setConfig(new ConfigModel("hard"));
 			}
-			c1.show(panels, "Jogar");
-			textField.requestFocus();
-			textField.setSelectedTextColor(Color.BLACK);
-			textField.setSelectionColor(Color.LIGHT_GRAY);
-			textField.selectAll();
 		}
 	}
 	
